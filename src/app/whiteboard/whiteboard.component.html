@@ -1,0 +1,23 @@
+<div class="whiteboard" (click)="showForm($event)">
+   
+    <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container">
+        <img *ngIf="media.type.startsWith('image')" [src]="media.src">
+        <iframe *ngIf="media.type.startsWith('video')" [src]="media.safeSrc" frameborder="0" allowfullscreen></iframe>
+      </div>
+      
+  
+      <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form">
+        <h3>Add Media</h3>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" [(ngModel)]="formValue.name" placeholder="Enter media name">
+        </div>
+        <div class="form-group">
+            <label for="url">URL:</label>
+            <input type="text" id="url" [(ngModel)]="formValue.url" placeholder="Enter YouTube or image URL">
+        </div>
+        <button (click)="addMedia()">Add</button>
+    </div>
+    
+  </div>
+  

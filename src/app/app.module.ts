@@ -1,14 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule  } from "@angular/forms";
 import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+import { WhiteboardComponent } from './whiteboard/whiteboard.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ServerComponent,
+    WhiteboardComponent
+    
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
