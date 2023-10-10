@@ -1,9 +1,10 @@
 <div class="whiteboard" (click)="showForm($event)">
    
     <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container">
-        <img *ngIf="media.type.startsWith('image')" [src]="media.src">
+        <span class="media-name">{{ media.name }}</span> <!-- Displaying the name -->
+        <img *ngIf="media.type.startsWith('image')" [src]="media.safeSrc">
         <iframe *ngIf="media.type.startsWith('video')" [src]="media.safeSrc" frameborder="0" allowfullscreen></iframe>
-      </div>
+    </div>
       
   
       <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form">

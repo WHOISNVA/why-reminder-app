@@ -18,7 +18,7 @@
   }
   
   .media-form h3 {
-    margin: 0;
+    margin: 14;
     padding-bottom: 15px;
     border-bottom: 1px solid #e4e4e4;
     font-size: 1.2em;
@@ -26,6 +26,7 @@
   
   .form-group {
     margin-bottom: 15px;
+    margin-right: 20px;
   }
   
   .form-group label {
@@ -64,5 +65,19 @@
   
   .img-video-container {
     position: absolute;
-  }
-  
+    /* If you wish to have some padding space for the name and the media, you can add it here */
+    padding-top: 20px;
+}
+
+.media-name {
+    display: block; /* semi-transparent black */
+    color: #302626;  /* white text */
+    padding: 3px 5px;  
+    border-radius: 3px;
+    text-align: center;  /* centers the text */
+    width: 100%;  /* it takes the full width of its parent (.img-video-container) */
+    position: absolute;  /* absolutely position it within its parent */
+    top: 0;  /* align to the top of its parent */
+    left: 0;  /* align to the start of its parent */
+    z-index: 1;  /* ensure it's above the media content */
+}
