@@ -1,0 +1,15 @@
+.whiteboard-name-input-container {
+    justify-content: center;
+    flex-grow: 1;       /* Allows the input container to take available space */
+
+}
+
+.whiteboard-name-input-container input {
+    width: 100%;       /* Take the full width of its container */
+    padding: 10px;     /* Add some padding for a larger, more visible input */
+    font-size: 1.7em;  /* Increase font size */
+    border: 2px solid #ccc;  /* A simple border, adjust as needed */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+}
+

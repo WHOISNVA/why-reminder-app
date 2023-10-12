@@ -6,6 +6,7 @@ import { WhiteboardComponent } from './whiteboard/whiteboard.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SafePipe } from './safe.pipe';
+import { TitleComponent } from './title/title.component';
 
 
 
@@ -13,7 +14,8 @@ import { SafePipe } from './safe.pipe';
   declarations: [
     AppComponent,
     WhiteboardComponent,
-    SafePipe
+    SafePipe,
+    TitleComponent
     
   ],
   imports: [
