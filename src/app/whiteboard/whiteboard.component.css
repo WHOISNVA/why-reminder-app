@@ -81,3 +81,7 @@
     left: 0;  /* align to the start of its parent */
     z-index: 1;  /* ensure it's above the media content */
 }
+
+iframe {
+  pointer-events: none;
+}

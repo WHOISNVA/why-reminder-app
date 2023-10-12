@@ -13,12 +13,15 @@ export class WhiteboardComponent {
   formPosition = { x: 0, y: 0 };
   formValue = { name: '', url: '' };
 
-  showForm(event: MouseEvent) {
-    console.log('Whiteboard clicked');
-    this.formPosition.x = event.clientX;
-    this.formPosition.y = event.clientY;
+  showForm(event: MouseEvent, source: 'background' | 'form' = 'background') {
+    if (source === 'background') {
+        console.log('Whiteboard clicked');
+        this.formPosition.x = event.offsetX;
+        this.formPosition.y = event.offsetY;
+    }
     this.showMediaForm = true;
-  }
+}
+
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -50,6 +53,11 @@ export class WhiteboardComponent {
     // You can add more media type detections if needed
     return null;
   }
+
+  stopPropagation(event: MouseEvent) {
+    event.stopPropagation();
+}
+
 
   cancelForm() {
     this.showMediaForm = false;
