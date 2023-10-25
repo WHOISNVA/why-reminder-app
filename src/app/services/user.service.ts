@@ -4,6 +4,7 @@ import { User } from './user.model';  // Update path as needed
 @Injectable({
     providedIn: 'root'
 })
+
 export class UserService {
     private users: User[] = []; // Mock data storage for users.
 

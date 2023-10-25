@@ -27,4 +27,5 @@ import { TitleComponent } from './title/title.component';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

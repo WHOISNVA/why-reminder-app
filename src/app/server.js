@@ -7,7 +7,7 @@ const Post = require('./models/Post');
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost:27017/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://nova-admin:NoVA2016@cluster0.fqsbkrs.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
@@ -115,6 +115,6 @@ app.post('/posts', async (req, res) => {
       res.status(400).json(err);
     }
   });
-  
+
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
