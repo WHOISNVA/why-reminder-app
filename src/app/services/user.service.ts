@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from './user.model';  // Update path as needed
+import { User } from '../models/user';
+//import { User } from './user.model';  // Update path as needed
 
 @Injectable({
     providedIn: 'root'
