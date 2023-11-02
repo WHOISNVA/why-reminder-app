@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const User = require('./models/User');
-const Post = require('./models/Post');
+const Post = require('./models/Posts');
+const Cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(Cors());
 
 mongoose.connect('mongodb+srv://nova-admin:NoVA2016@cluster0.fqsbkrs.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))
@@ -65,8 +68,13 @@ app.delete('/users/:id', async (req, res) => {
 
 // ========== Post Routes ==========
 
+
+
 // Create a new post
 app.post('/posts', async (req, res) => {
+    console.log('post data header:', req.header);
+    console.log('post data body:', req.body);
+
     try {
       const newPost = new Post(req.body);
       const savedPost = await newPost.save();

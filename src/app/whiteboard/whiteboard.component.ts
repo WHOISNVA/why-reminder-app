@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-whiteboard',
@@ -23,7 +25,7 @@ export class WhiteboardComponent {
 }
 
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {}
 
   addMedia() {
     const type = this.detectMediaType(this.formValue.url);
@@ -38,6 +40,26 @@ export class WhiteboardComponent {
         type,
         name: this.formValue.name
       });
+
+      // added for posting to backend server
+      
+      const postData = {
+        title: this.formValue.name,
+        url: formattedURL,
+        x: this.formPosition.x,
+        y: this.formPosition.y,
+      }
+
+      console.log('post data:', JSON.stringify(postData));
+      const postUrl = 'http://127.0.0.1:3000/posts';
+           
+
+      let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
+      this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
+        //alert(JSON.stringify(data));
+      });
+      
+
       this.showMediaForm = false;
       this.formValue = { name: '', url: '' };
     } else {

@@ -7,6 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SafePipe } from './safe.pipe';
 import { TitleComponent } from './title/title.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -22,7 +23,7 @@ import { TitleComponent } from './title/title.component';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
