@@ -8,6 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SafePipe } from './safe.pipe';
 import { TitleComponent } from './title/title.component';
 import { HttpClientModule } from '@angular/common/http';
+import { VideoDialogComponent } from './video-dialog/video-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -16,14 +19,15 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     WhiteboardComponent,
     SafePipe,
-    TitleComponent
-    
+    TitleComponent,
+    VideoDialogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

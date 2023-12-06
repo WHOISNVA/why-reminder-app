@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { VideoDialogComponent } from '../video-dialog/video-dialog.component';
+
 
 @Component({
   selector: 'app-whiteboard',
@@ -55,8 +58,21 @@ export class WhiteboardComponent {
     this.showMediaForm = true;
   }
 
+  openMedia(media: any, event: MouseEvent): void {
+    event.stopPropagation(); // Prevent click from reaching the whiteboard
+    if (media.type.startsWith('video')) {
+      // Logic to open video in full screen
+      this.openVideoDialog(media.safeSrc);
+    }
+  }
 
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {}
+  openVideoDialog(url: string): void {
+    this.dialog.open(VideoDialogComponent, {
+      data: { url: url }
+    });
+  }
+
+  constructor(private dialog: MatDialog, private sanitizer: DomSanitizer, private http: HttpClient) {}
 
   addMedia() {
     const type = this.detectMediaType(this.formValue.url);

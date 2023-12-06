@@ -65,8 +65,9 @@
   
   .img-video-container {
     position: absolute;
-    /* If you wish to have some padding space for the name and the media, you can add it here */
-    padding-top: 20px;
+    border: 3px solid brown; /* Adjust the border thickness and color as needed */
+    padding: 5px; /* Optional, adds space inside the frame */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Optional, for a drop shadow effect */
 }
 
 .media-name {
