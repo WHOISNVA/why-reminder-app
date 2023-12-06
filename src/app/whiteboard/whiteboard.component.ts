@@ -15,6 +15,37 @@ export class WhiteboardComponent {
   formPosition = { x: 0, y: 0 };
   formValue = { name: '', url: '' };
 
+  ngOnInit(){
+    
+    //do any lines of code to init the child
+    console.log("this executes second");
+    
+    const getUrl = 'http://127.0.0.1:3000/posts';
+    //let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
+    this.http.get<any>(getUrl).subscribe(data => {
+      data.map((d: any, index: number) => {
+        const datatype = this.detectMediaType(d.url);
+        
+        if(datatype) {
+          const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(d.url);
+
+          this.mediaItems.push({
+            x: d.x,
+            y: d.y,
+            src: d.url,
+            safeSrc: safeURL,
+            
+            type: datatype,
+            name: d.title
+          });
+          console.log(datatype);
+        }
+        
+      })
+    });
+
+  }
+
   showForm(event: MouseEvent, source: 'background' | 'form' = 'background') {
     if (source === 'background') {
         console.log('Whiteboard clicked');
@@ -22,7 +53,7 @@ export class WhiteboardComponent {
         this.formPosition.y = event.offsetY;
     }
     this.showMediaForm = true;
-}
+  }
 
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient) {}
@@ -32,17 +63,9 @@ export class WhiteboardComponent {
     if (type) {
       const formattedURL = type.startsWith('video') ? this.formValue.url.replace('watch?v=', 'embed/') : this.formValue.url;
       const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(formattedURL);
-      this.mediaItems.push({
-        src: formattedURL,
-        safeSrc: safeURL,
-        x: this.formPosition.x,
-        y: this.formPosition.y,
-        type,
-        name: this.formValue.name
-      });
+      
 
       // added for posting to backend server
-      
       const postData = {
         title: this.formValue.name,
         url: formattedURL,
@@ -56,7 +79,14 @@ export class WhiteboardComponent {
 
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
-        //alert(JSON.stringify(data));
+        this.mediaItems.push({
+          src: formattedURL,
+          safeSrc: safeURL,
+          x: this.formPosition.x,
+          y: this.formPosition.y,
+          type,
+          name: this.formValue.name
+        });
       });
       
 
