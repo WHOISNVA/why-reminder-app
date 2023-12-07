@@ -1,9 +1,24 @@
+
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
   <div class="simple-toolbar">
     <img src="assets/images/url-mural-white.png" alt="Your Image Description">
   </div>
+
+  <!-- Menu Icon -->
+  <div class="menu-icon" (click)="toggleMenu()" (mouseover)="openMenu()" (mouseleave)="closeMenu()">
+    ☰
+  </div>
+
+  <!-- Menu Content -->
+  <div class="menu-content" [class.show]="showMenu">
+    <!-- Menu items here -->
+    <a href="#">Item 1</a>
+    <a href="#">Item 2</a>
+    <!-- more items -->
+  </div>
 </div>
+
 <app-title></app-title>
 <app-whiteboard></app-whiteboard>
 
