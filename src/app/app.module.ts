@@ -10,7 +10,7 @@ import { TitleComponent } from './title/title.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VideoDialogComponent } from './video-dialog/video-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -27,7 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
