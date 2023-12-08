@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoDialogComponent } from '../video-dialog/video-dialog.component';
-
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-whiteboard',
@@ -143,11 +144,29 @@ export class WhiteboardComponent {
 
   stopPropagation(event: MouseEvent) {
     event.stopPropagation();
-}
+  }
 
 
   cancelForm() {
     this.showMediaForm = false;
     this.formValue = { url: '' };
   }
+
+  onDrag(media: any, event: CdkDragStart): void {
+    
+    console.log(event.source.getFreeDragPosition());
+  }
+
+  onDrop(mediaToUpdate: any, event: CdkDragEnd): void {    
+    let tmpMedia = {...mediaToUpdate};
+    const movedPositionDiff = event.source.getFreeDragPosition();
+    const updateUrl = 'http://127.0.0.1:3000/posts/' + mediaToUpdate._id;
+    
+    tmpMedia.x += movedPositionDiff.x;
+    tmpMedia.y += movedPositionDiff.y;
+    
+    this.http.put<any>(updateUrl, tmpMedia)
+        .subscribe(data => mediaToUpdate._id = data._id);
+  }
+
 }
