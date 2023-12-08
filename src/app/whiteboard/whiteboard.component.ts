@@ -65,7 +65,7 @@ export class WhiteboardComponent {
         console.log('Whiteboard clicked');
         this.formPosition.x = event.offsetX;
         this.formPosition.y = event.offsetY;
-    }
+    } 
     this.showMediaForm = true;
   }
 
@@ -109,17 +109,19 @@ export class WhiteboardComponent {
 
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
+        console.log('added data:', JSON.stringify(data));
+        
         this.mediaItems.push({
           _id: '',
           src: formattedURL,
           safeSrc: safeURL,
-          x: this.formPosition.x,
-          y: this.formPosition.y,
+          x: postData.x,
+          y: postData.y,
           type,
         });
+
       });
       
-
       this.showMediaForm = false;
       this.formValue = {  url: '' };
     } else {
@@ -127,6 +129,9 @@ export class WhiteboardComponent {
     }
   }
   
+  hideForm(): void {
+    this.showMediaForm = false;
+  }
 
   detectMediaType(url: string): string | null {
     if (url.includes('youtube.com')) {

@@ -1,4 +1,4 @@
-<div class="whiteboard" (click)="showForm($event)">
+<div class="whiteboard" (click)="showForm($event)" (mouseleave)="hideForm()">
     <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container" (click)="openMedia(media, $event)">
         <span class="delete-icon" (click)="deleteMedia(media, $event)">X</span>
         <img *ngIf="media.type.startsWith('image')" [src]="media.safeSrc">

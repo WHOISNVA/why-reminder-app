@@ -14,5 +14,7 @@ export class TitleComponent {
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
+
+
 }
 

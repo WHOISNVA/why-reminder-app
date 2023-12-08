@@ -26,3 +26,4 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span')?.textContent).toContain('why-reminder-app app is running!');
   });
 });
+
