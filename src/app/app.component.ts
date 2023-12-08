@@ -8,19 +8,6 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'why-reminder-app';
 
-  showMenu = false;
-
-  toggleMenu() {
-    this.showMenu = !this.showMenu;
-  }
-
-  openMenu() {
-    this.showMenu = true;
-  }
-
-  closeMenu() {
-    this.showMenu = false;
-  }
   
 }
 

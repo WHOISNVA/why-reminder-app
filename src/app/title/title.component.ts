@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class TitleComponent {
   whiteboardName: string = '';
+
+
+  showMenu = false;
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
 }
+

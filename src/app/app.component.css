@@ -69,11 +69,11 @@
 
   .content {
     display: flex;
-    margin: 82px auto 32px;
-    padding: 0 16px;
-    max-width: 960px;
     flex-direction: column;
     align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   svg.material-icons {
@@ -308,7 +308,7 @@
     justify-content: center;
     align-items: center;
     height: 80px; /* adjust this height as needed */
-    background-color: #005696; /* bright red for testing, change later */
+    background-color: #943b3b; /* bright red for testing, change later */
     width: 100%; /* take full width */
 }
 
@@ -317,31 +317,7 @@
   /* rest of your styles */
 }
 
-.menu-icon {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
-  /* style as needed */
-}
+/* .menu-icon.hide {
+  visibility: hidden;
+} */
 
-.menu-content {
-  position: absolute;
-  top: 40px;
-  left: 10px;
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 10px;
-  display: none;
-  /* style as needed */
-}
-
-.menu-content.show {
-  display: block;
-}
-
-.menu-content a {
-  display: block;
-  padding: 5px 0;
-  /* style as needed */
-}
