@@ -13,10 +13,10 @@ import { VideoDialogComponent } from '../video-dialog/video-dialog.component';
 })
 
 export class WhiteboardComponent {
-  mediaItems: { src: string, safeSrc: SafeResourceUrl, x: number, y: number, type: string, name: string }[] = [];
+  mediaItems: { _id: string, src: string, safeSrc: SafeResourceUrl, x: number, y: number, type: string,}[] = [];
   showMediaForm = false;
   formPosition = { x: 0, y: 0 };
-  formValue = { name: '', url: '' };
+  formValue = { url: '' };
 
   ngOnInit(){
     
@@ -28,26 +28,37 @@ export class WhiteboardComponent {
     this.http.get<any>(getUrl).subscribe(data => {
       data.map((d: any, index: number) => {
         const datatype = this.detectMediaType(d.url);
-        
+        console.log(JSON.stringify(d));
         if(datatype) {
           const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(d.url);
 
           this.mediaItems.push({
+            _id: d._id,
             x: d.x,
             y: d.y,
             src: d.url,
             safeSrc: safeURL,
             
-            type: datatype,
-            name: d.title
+            type: datatype
           });
-          console.log(datatype);
+          //console.log(datatype);
         }
         
       })
     });
 
   }
+
+  deleteMedia(mediaToDelete: any, event: MouseEvent): void {
+    event.stopPropagation();
+    this.mediaItems = this.mediaItems.filter(media => media !== mediaToDelete);
+
+    const deleteUrl = 'http://127.0.0.1:3000/posts/' + mediaToDelete._id;
+    console.log(JSON.stringify(deleteUrl ));
+
+    this.http.delete<any>(deleteUrl).subscribe(() => console.log('Delete successful'));
+}
+
 
   showForm(event: MouseEvent, source: 'background' | 'form' = 'background') {
     if (source === 'background') {
@@ -59,11 +70,15 @@ export class WhiteboardComponent {
   }
 
   openMedia(media: any, event: MouseEvent): void {
+    console.log('openMedia');
+    console.log(media);
+    
     event.stopPropagation(); // Prevent click from reaching the whiteboard
     if (media.type.startsWith('video')) {
       // Logic to open video in full screen
       this.openVideoDialog(media.safeSrc);
     }
+    
   }
 
   openVideoDialog(url: string): void {
@@ -83,7 +98,6 @@ export class WhiteboardComponent {
 
       // added for posting to backend server
       const postData = {
-        title: this.formValue.name,
         url: formattedURL,
         x: this.formPosition.x,
         y: this.formPosition.y,
@@ -96,18 +110,18 @@ export class WhiteboardComponent {
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
         this.mediaItems.push({
+          _id: '',
           src: formattedURL,
           safeSrc: safeURL,
           x: this.formPosition.x,
           y: this.formPosition.y,
           type,
-          name: this.formValue.name
         });
       });
       
 
       this.showMediaForm = false;
-      this.formValue = { name: '', url: '' };
+      this.formValue = {  url: '' };
     } else {
       alert('Invalid URL!');
     }
@@ -129,6 +143,6 @@ export class WhiteboardComponent {
 
   cancelForm() {
     this.showMediaForm = false;
-    this.formValue = { name: '', url: '' };
+    this.formValue = { url: '' };
   }
 }
