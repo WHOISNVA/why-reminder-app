@@ -19,6 +19,8 @@ export class WhiteboardComponent {
   formPosition = { x: 0, y: 0 };
   formValue = { url: '' };
 
+  dragging = false;
+
   ngOnInit(){
     
     //do any lines of code to init the child
@@ -29,7 +31,7 @@ export class WhiteboardComponent {
     this.http.get<any>(getUrl).subscribe(data => {
       data.map((d: any, index: number) => {
         const datatype = this.detectMediaType(d.url);
-        console.log(JSON.stringify(d));
+
         if(datatype) {
           const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(d.url);
 
@@ -62,24 +64,27 @@ export class WhiteboardComponent {
 
 
   showForm(event: MouseEvent, source: 'background' | 'form' = 'background') {
-    if (source === 'background') {
-        console.log('Whiteboard clicked');
-        this.formPosition.x = event.offsetX;
-        this.formPosition.y = event.offsetY;
-    } 
-    this.showMediaForm = true;
+    if(!this.dragging) {
+      if (source === 'background') {
+          this.formPosition.x = event.offsetX;
+          this.formPosition.y = event.offsetY;
+      } 
+      this.showMediaForm = true;
+    } else {
+      this.dragging = false;
+    }
   }
 
   openMedia(media: any, event: MouseEvent): void {
-    console.log('openMedia');
-    console.log(media);
-    
     event.stopPropagation(); // Prevent click from reaching the whiteboard
-    if (media.type.startsWith('video')) {
-      // Logic to open video in full screen
-      this.openVideoDialog(media.safeSrc);
+    if(!this.dragging) {
+      if (media.type.startsWith('video')) {
+        // Logic to open video in full screen
+        this.openVideoDialog(media.safeSrc);
+      }
+    } else {
+      this.dragging = false;
     }
-    
   }
 
   openVideoDialog(url: string): void {
@@ -153,7 +158,8 @@ export class WhiteboardComponent {
   }
 
   onDrag(media: any, event: CdkDragStart): void {
-    
+    this.dragging = true;
+    this.showMediaForm = false;
     console.log(event.source.getFreeDragPosition());
   }
 
@@ -166,7 +172,9 @@ export class WhiteboardComponent {
     tmpMedia.y += movedPositionDiff.y;
     
     this.http.put<any>(updateUrl, tmpMedia)
-        .subscribe(data => mediaToUpdate._id = data._id);
+        .subscribe(data => { 
+          mediaToUpdate._id = data._id;
+        });
   }
 
 }
