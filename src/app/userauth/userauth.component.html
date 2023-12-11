@@ -1,0 +1,16 @@
+<div>
+    <div *ngIf="nowPage==='login'">
+        <app-userauth-signin (changeLoginUserStatus)="changeLoginUserStatus()" />
+    </div>
+    <div *ngIf="nowPage==='register'">
+        <app-userauth-signup />
+    </div>
+    <div style="align:right" (click)="changeStatus()">
+        <p *ngIf="nowPage==='login'">
+            Go to Register Page...
+        </p>
+        <p *ngIf="nowPage==='register'">
+            Go to Login Page...
+        </p> 
+    </div>
+</div> 
