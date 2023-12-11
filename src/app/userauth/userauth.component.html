@@ -5,12 +5,10 @@
     <div *ngIf="nowPage==='register'">
         <app-userauth-signup />
     </div>
-    <div style="align:right" (click)="changeStatus()">
-        <p *ngIf="nowPage==='login'">
-            Go to Register Page...
-        </p>
-        <p *ngIf="nowPage==='register'">
-            Go to Login Page...
-        </p> 
+    <div>
+        <button mat-button (click)="changeStatus()">
+            <span *ngIf="nowPage==='login'">>> Go to Register Page...</span>
+            <span *ngIf="nowPage==='register'">>> Go to Login Page...</span>
+        </button>
     </div>
 </div> 
