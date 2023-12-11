@@ -1,3 +1,7 @@
 .login-wrapper {
-    width: 244px;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
 }

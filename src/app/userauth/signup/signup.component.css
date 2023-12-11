@@ -18,3 +18,7 @@ input.example-right-align {
 .signup-card {
     max-width: 300px;
 }
+
+.full-width {
+    width: 100%;
+}

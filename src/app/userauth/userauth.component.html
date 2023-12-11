@@ -1,4 +1,4 @@
-<div>
+<div class="authcontainer">
     <div *ngIf="nowPage==='login'">
         <app-userauth-signin (changeLoginUserStatus)="changeLoginUserStatus()" />
     </div>
@@ -7,8 +7,8 @@
     </div>
     <div>
         <button mat-button (click)="changeStatus()">
-            <span *ngIf="nowPage==='login'">>> Go to Register Page...</span>
-            <span *ngIf="nowPage==='register'">>> Go to Login Page...</span>
+            <span *ngIf="nowPage==='login'"> &gt;&gt; Go to Register Page...</span>
+            <span *ngIf="nowPage==='register'"> &lt;&lt; Go to Login Page...</span>
         </button>
     </div>
 </div> 

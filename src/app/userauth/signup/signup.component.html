@@ -6,7 +6,7 @@
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="email" matInput placeholder="Email" formControlName="email">
             <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email 
             with the .touched check we only display the hints if the input was touched by the users -->
@@ -19,7 +19,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="text" matInput placeholder="Username" formControlName="username">
             <mat-error
               *ngIf="this.registerForm.get('username')?.touched && this.registerForm.get('username')?.hasError('required')">
@@ -27,7 +27,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="text" matInput placeholder="First Name" formControlName="firstname">
             <mat-error
               *ngIf="this.registerForm.get('firstname')?.touched && this.registerForm.get('firstname')?.hasError('required')">
@@ -35,7 +35,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="text" matInput placeholder="Last Name" formControlName="lastname">
             <mat-error
               *ngIf="this.registerForm.get('lastname')?.touched && this.registerForm.get('lastname')?.hasError('required')">
@@ -43,7 +43,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="password" matInput placeholder="Password" formControlName="password">
             <mat-error
               *ngIf="this.registerForm.get('password')?.touched && this.registerForm.get('password')?.hasError('required')">
@@ -51,7 +51,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="password" matInput placeholder="Password Confirmation" formControlName="passwordConfirm">
             <mat-error
               *ngIf="this.registerForm.get('passwordConfirm')?.touched && this.registerForm.get('passwordConfirm')?.hasError('required')">
@@ -62,7 +62,7 @@
           </mat-form-field>
         </p>
         <p>
-          <mat-form-field>
+          <mat-form-field class="full-width">
             <input type="text" matInput placeholder="Whiteboard Name" formControlName="whiteboardname">
             <mat-error
               *ngIf="this.registerForm.get('whiteboardname')?.touched && this.registerForm.get('whiteboardname')?.hasError('required')">

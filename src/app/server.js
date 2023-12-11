@@ -76,7 +76,7 @@ app.delete('/users/:id', async (req, res) => {
 // ========== Post Routes ==========
 
 // Create a new post
-app.post('/posts', async (req, res) => {
+app.post('/posts', auth, async (req, res) => {
     console.log('post data header:', req.header);
     console.log('post data body:', req.body);
 
@@ -100,7 +100,7 @@ app.post('/posts', async (req, res) => {
   });
   
   // Get a single post by ID
-  app.get('/posts/:id', async (req, res) => {
+  app.get('/posts/:id', auth, async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
       res.json(post);
@@ -110,7 +110,7 @@ app.post('/posts', async (req, res) => {
   });
   
   // Update a post by ID
-  app.put('/posts/:id', async (req, res) => {
+  app.put('/posts/:id', auth, async (req, res) => {
     try {
       const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
       res.json(updatedPost);
@@ -120,7 +120,7 @@ app.post('/posts', async (req, res) => {
   });
   
   // Delete a post by ID
-  app.delete('/posts/:id', async (req, res) => {
+  app.delete('/posts/:id', auth, async (req, res) => {
     try {
       await Post.findByIdAndDelete(req.params.id);
       res.json({ message: 'Post deleted' });
