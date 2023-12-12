@@ -6,23 +6,22 @@ import { Component, Input, SimpleChanges } from '@angular/core';
   styleUrls: ['./title.component.css']
 })
 export class TitleComponent {
-  @Input() currentUserInfo = {
-    whiteboardname: ''
+  @Input() currentGalleryInfo = {
+    name: ''
   };
   whiteboardname = '';
 
   showMenu = false;
 
   ngOnChanges(changes: SimpleChanges) {
-
-    if (Object.keys(this.currentUserInfo).length > 0) {
-      this.whiteboardname = this.currentUserInfo.whiteboardname;
+    if (Object.keys(this.currentGalleryInfo).length > 0) {
+      this.whiteboardname = this.currentGalleryInfo.name;
     } else {
-      this.currentUserInfo = {
-        whiteboardname: ''
+      this.currentGalleryInfo = {
+        name: ''
       };
     }
-    this.whiteboardname = this.currentUserInfo.whiteboardname;
+    this.whiteboardname = this.currentGalleryInfo.name;
   }
 
   toggleMenu() {

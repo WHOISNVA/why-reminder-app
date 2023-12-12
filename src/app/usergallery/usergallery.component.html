@@ -1,0 +1,47 @@
+<div class="gallerycontainer">
+    <div class="divcenter">
+        <h2>Gallery</h2>
+        <form class="example-form" [formGroup]="createForm" (submit)="createNewGallery()">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="galleryExpandStep === 1" (closed)="setExpandStep(2)" (opened)="setExpandStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Create New Gallery
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <table class="example-full-width" cellspacing="0">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Gallery name" formControlName="name">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <button type="submit" mat-button [disabled]="!createForm.valid">Save</button>
+                        </div>
+                    </td>
+                </tr>
+              </table>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="nopaddingcontent" [expanded]="galleryExpandStep === 2" (closed)="setExpandStep(1)" (opened)="setExpandStep(2)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Gallery List
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="divright">
+                    <button mat-button color="warn" (click)="deleteCurrentGallery()" [disabled]="galleryList.indexOf(currentGalleryInfo) < 0">Delete</button>
+                </div>
+                <div class="gallerylist">
+                    <mat-selection-list #galleries [multiple]="false" (selectionChange)="selectChange($event)" >
+                        <mat-list-option *ngFor="let gallery of galleryList" [value]="gallery" >{{gallery.name}}</mat-list-option>
+                    </mat-selection-list>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+        </form>
+    </div>
+</div> 

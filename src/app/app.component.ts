@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { StorageService } from './services/storage.service';
+import { Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,18 @@ export class AppComponent {
   }
 
   currentUserInfo = {
+  };
+
+  currentGalleryInfo = {
     
   };
 
   changeLoginUserInfo() {
     this.currentUserInfo = this.storageService.getUser();
-    //alert(JSON.stringify(this.currentUserInfo));
-    //this.currentUserInfo.whiteboardname = 'newwhiteboard';
-    //this.currentUserInfo.id = '333';
+  }
+
+  changeGalleryInfo(selectedGallery:any) {
+    console.log(JSON.stringify(selectedGallery));
+    this.currentGalleryInfo = selectedGallery;
   }
 }

@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-userauth-signin',
@@ -26,6 +27,7 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private snackbar: MatSnackBar,
     private storageService: StorageService
   ) {
     
@@ -67,6 +69,18 @@ export class SigninComponent implements OnInit {
 
         this.changeLoginUserStatus.emit();
       })
-    ).subscribe();
+    ).subscribe(
+      res => {
+        console.log(JSON.stringify(res))
+      },
+      err => {
+        console.log(JSON.stringify(err));
+        this.storageService.clean();
+        this.isLoggedIn = false;
+        this.loginUserInfo = {};
+        this.loginUserInfo = {};
+      },
+      () => console.log('complete')
+    );
   }
 }

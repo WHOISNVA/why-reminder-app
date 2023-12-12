@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
     const userInfo = this.storage.getUser();
-    console.log('intercept:', JSON.stringify(userInfo));
+    //console.log('intercept:', JSON.stringify(userInfo));
     // Clone the request and replace the original headers with    
     if(userInfo && userInfo.token) {
         req = req.clone({
@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 'Authorization': `${userInfo.token}`,
             }            
         });
-        console.log('authReq:', req);
+        //console.log('authReq:', req);
         // send cloned request with header to the next handler.
         return next.handle(req); 
     } else {

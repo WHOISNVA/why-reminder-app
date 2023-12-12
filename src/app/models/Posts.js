@@ -20,6 +20,10 @@ const PostSchema = new Schema({
     y: {
         type: Number,
         required: true
+    },
+    galleryid: {
+        type: String,
+        required: true
     }
 });
 

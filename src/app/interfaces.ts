@@ -45,3 +45,19 @@ export interface RefreshToken {
     status: number;
     message: string;
   }
+
+  /*
+  Interface for the Register Request (can look different, based on your backend api)
+  */
+  export interface AddgalleryRequest {
+    name: string;
+  }
+  
+  /*
+  Interface for the Addgallery Response (can look different, based on your backend api)
+  */
+  export interface AddgalleryResponse {
+    _id: string;
+    name: string;
+//    userid: string;
+  }

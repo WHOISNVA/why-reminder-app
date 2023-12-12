@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     },
     whiteboardname: {
         type: String,
-        required: true
+        required: false
     }
 });
 

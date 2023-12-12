@@ -1,0 +1,37 @@
+.gallerycontainer {
+    padding-bottom: 8px;
+}
+.divcenter {
+    width: 100%;
+    text-align: center;
+}
+.divjustify {
+    width: 100%;
+    text-align: justify;
+}
+.divright {
+    width: 100%;
+    text-align: right;
+}
+.gallerylist {
+    height: 475px;
+    overflow-y: scroll;
+    padding: 0px;
+    margin: 0px;
+}
+::ng-deep .nopaddingcontent .mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+.example-disabled {
+  
+}
+
+.mat-mdc-list-item-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }

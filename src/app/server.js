@@ -4,17 +4,20 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const User = require('./models/User');
 const Post = require('./models/Posts');
+const Gallery = require('./models/Gallery');
 const Cors = require('cors');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
-const auth = require("./middleware/auth");
+const authMiddleware = require("./middleware/auth");
+const galleryMiddleware = require("./middleware/gallery");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(Cors());
+
 
 mongoose.connect('mongodb+srv://nova-admin:NoVA2016@cluster0.fqsbkrs.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))
@@ -30,7 +33,6 @@ app.post('/users', async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-  
 });
 
 // Get all users
@@ -73,61 +75,119 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
+
+async function checkGalleryForThisUser(galleryId, userId) {
+  console.log('checkGallery-start');
+  try {
+    console.log('checkGallery-001');
+    const gallerys = await Gallery.find({userid:userId, _id:galleryId});
+    console.log('checkGallery-002');
+    console.log("CHECKING:", JSON.stringify(gallerys));
+    return true;
+  } catch (err) {
+    console.log('check error');
+    return false;
+  }
+}
+
 // ========== Post Routes ==========
 
 // Create a new post
-app.post('/posts', auth, async (req, res) => {
+app.post('/posts', authMiddleware, async (req, res) => {
     console.log('post data header:', req.header);
     console.log('post data body:', req.body);
 
     try {
+      console.log(req.body);
       const newPost = new Post(req.body);
       const savedPost = await newPost.save();
       res.json(savedPost);
     } catch (err) {
       res.status(400).json(err);
     }
-  });
+});
   
-  // Get all posts
-  app.get('/posts', auth, async (req, res) => {
+// Get all posts
+app.get('/posts', authMiddleware, async (req, res) => {
+  const galleryId = req.query.gallery;
+  
+  //checkGalleryForThisUser(galleryId, req.user.user_id);
     try {
-      const posts = await Post.find();
+      //const posts = await Post.find();
+      const posts = await Post.find({galleryid:req.query.gallery});
       res.json(posts);
     } catch (err) {
       res.status(400).json(err);
     }
-  });
+});
   
-  // Get a single post by ID
-  app.get('/posts/:id', auth, async (req, res) => {
+// Get a single post by ID
+app.get('/posts/:id', authMiddleware, async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
       res.json(post);
     } catch (err) {
       res.status(400).json(err);
     }
-  });
+});
   
-  // Update a post by ID
-  app.put('/posts/:id', auth, async (req, res) => {
+// Update a post by ID
+app.put('/posts/:id', authMiddleware, async (req, res) => {
     try {
       const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
       res.json(updatedPost);
     } catch (err) {
       res.status(400).json(err);
     }
-  });
+});
   
-  // Delete a post by ID
-  app.delete('/posts/:id', auth, async (req, res) => {
+// Delete a post by ID
+app.delete('/posts/:id', authMiddleware, async (req, res) => {
     try {
       await Post.findByIdAndDelete(req.params.id);
       res.json({ message: 'Post deleted' });
     } catch (err) {
       res.status(400).json(err);
     }
-  });
+});
+
+// ========== Wall Routes ===========
+// Create a new gallery
+app.post('/galleries', galleryMiddleware, async (req, res) => {
+//  console.log('gallery data header:', req.header);
+//  console.log('gallery data body:', req.body);
+
+  try {
+    const newGallery = new Gallery(req.body);
+    const savedGallery = await newGallery.save();
+    res.json(savedGallery);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+// Get all galleries
+app.get('/galleries', galleryMiddleware, async (req, res) => {
+//  console.log('gallery data header:', req.header);
+//  console.log('gallery data body:', req.body);
+  
+  try {
+    const gallerys = await Gallery.find({userid:req.body.userid});
+    res.json(gallerys);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+// Delete a gallery by ID
+app.delete('/galleries/:id', galleryMiddleware, async (req, res) => {
+  try {
+    await Gallery.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Gallery deleted' });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
 // ========== Login Actions ==========
   app.post('/login', async (req, res) => {
@@ -144,9 +204,9 @@ app.post('/posts', auth, async (req, res) => {
       
       // Validate if user exist in our database
       const user = await User.findOne({ email });
-      console.log('login email:'+email);
-      console.log('login password:'+password);
-      console.log(JSON.stringify(user));
+//      console.log('login email:'+email);
+//      console.log('login password:'+password);
+//      console.log(JSON.stringify(user));
       //if (user && (await bcrypt.compare(password, user.password))) {
       if (user && (password === user.password)) {
         
@@ -158,7 +218,7 @@ app.post('/posts', auth, async (req, res) => {
             expiresIn: "2h",
           }
         );
-        console.log('generated token:', token);
+//        console.log('generated token:', token);
         
         // save user token
         let returnUserData = {
@@ -179,7 +239,7 @@ app.post('/posts', auth, async (req, res) => {
     }
   });
 
-  app.post('/logout', auth, async (req, res) => {
+  app.post('/logout', authMiddleware, async (req, res) => {
     res.status(200).send({status:'ok'});
   });
 

@@ -11,7 +11,6 @@ export class UserauthComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
-    
   }
 
   changeLoginUserStatus(): void {

@@ -12,6 +12,8 @@ import { TitleComponent } from './title/title.component';
 import { UserauthComponent } from './userauth/userauth.component';
 import { SigninComponent } from './userauth/signin/signin.component';
 import { SignupComponent } from './userauth/signup/signup.component';
+import { UsergalleryComponent } from './usergallery/usergallery.component';
+
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -30,6 +32,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // specify the key where the token is stored in the local storage
@@ -51,7 +55,8 @@ export function tokenGetter() {
     VideoDialogComponent,
     UserauthComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    UsergalleryComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +79,8 @@ export function tokenGetter() {
     // Angular Material Imports
     MatSnackBarModule,
     MatTabsModule,
+    MatListModule,
+    MatExpansionModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

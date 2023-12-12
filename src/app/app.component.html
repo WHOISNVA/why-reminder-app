@@ -34,20 +34,24 @@
         </mat-toolbar>
     </p>
 </div>
-<mat-drawer-container class="example-container" hasBackdrop="false">       <!-- hasBackdrop: true false -->
-  <mat-drawer #drawer mode="side">                                        <!--Mode : side over push -->
-    <mat-tab-group class="tabcontainer" mat-stretch-tabs="true" mat-align-tabs="end" headerPosition="top">
-      <mat-tab label="LogIn/SignUp">
-        <app-userauth (changeLoginUserInfo)="changeLoginUserInfo()"/>
-      </mat-tab>
-      <mat-tab label="CreateNewGallery">Content 2</mat-tab>
-    </mat-tab-group>
-  </mat-drawer>             
-  <mat-drawer-content>
-    <app-title [currentUserInfo]='currentUserInfo'></app-title>
-    <app-whiteboard [currentUserInfo]='currentUserInfo'></app-whiteboard>
-  </mat-drawer-content>
-</mat-drawer-container>
+<div>
+  <mat-drawer-container class="matdrawer-container" hasBackdrop="false">       <!-- hasBackdrop: true false -->
+    <mat-drawer #drawer mode="side">                                        <!--Mode : side over push -->
+      <mat-tab-group class="tabcontainer" mat-stretch-tabs="true" mat-align-tabs="end" headerPosition="top">
+        <mat-tab label="LogIn/SignUp">
+          <app-userauth (changeLoginUserInfo)="changeLoginUserInfo()"/>
+        </mat-tab>
+        <mat-tab label="Gallery">
+          <app-usergallery [currentGalleryInfo]='currentGalleryInfo' (changeGalleryInfo)="changeGalleryInfo($event)" />
+        </mat-tab>
+      </mat-tab-group>
+    </mat-drawer>             
+    <mat-drawer-content>
+      <app-title [currentGalleryInfo]='currentGalleryInfo' ></app-title>
+      <app-whiteboard [currentGalleryInfo]='currentGalleryInfo' ></app-whiteboard>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
 
 <!--
 <app-toolbar></app-toolbar>
