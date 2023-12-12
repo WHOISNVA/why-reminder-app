@@ -20,10 +20,6 @@ const UserSchema = new Schema({
     },
     lastName: {
         type: String
-    },
-    whiteboardname: {
-        type: String,
-        required: false
     }
 });
 

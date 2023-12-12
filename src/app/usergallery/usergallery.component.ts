@@ -19,6 +19,9 @@ export class UsergalleryComponent implements OnInit {
     id:'',
     name:'',
   };
+  @Input() currentUserInfo = {
+
+  }
 
   createForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
@@ -47,6 +50,7 @@ export class UsergalleryComponent implements OnInit {
   
 
   ngOnInit() {
+    /*
     this.galleryList = [];
 
     const getUrl = 'http://127.0.0.1:3000/galleries';
@@ -68,10 +72,32 @@ export class UsergalleryComponent implements OnInit {
         }
       }
     );
+    */
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    
+    if(!changes['currentGalleryInfo']) {
+      this.galleryList = [];
+      const getUrl = 'http://127.0.0.1:3000/galleries';
+      this.http.get<any>(getUrl).subscribe(data => {
+        this.setExpandStep(2); 
+        data.map((d: any, index: number) => {
+          this.galleryList.push({
+            id: d._id,
+            name: d.name,
+          });
+          })
+        },
+        err => {
+          if(err.status === 401) {
+            this.snackbar.open('Please login again!', 'Close', {
+              duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snackbar-error']
+            });
+            
+          }
+        }
+      );
+    }
   }
 
   selectChange(event:MatSelectionListChange) {

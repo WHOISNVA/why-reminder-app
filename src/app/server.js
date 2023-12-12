@@ -172,8 +172,12 @@ app.get('/galleries', galleryMiddleware, async (req, res) => {
 //  console.log('gallery data body:', req.body);
   
   try {
-    const gallerys = await Gallery.find({userid:req.body.userid});
-    res.json(gallerys);
+    if(req.body.userid.length > 0) {
+      const gallerys = await Gallery.find({userid:req.body.userid});
+      res.json(gallerys);
+    } else {
+      res.status(401);
+    }
   } catch (err) {
     res.status(400).json(err);
   }
@@ -225,7 +229,6 @@ app.delete('/galleries/:id', galleryMiddleware, async (req, res) => {
           _id: user.id,
           email: user.email,
           username: user.username,
-          whiteboardname: user.whiteboardname,
           token
         };
         user.token = token;

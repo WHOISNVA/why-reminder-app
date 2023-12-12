@@ -20,7 +20,6 @@ export class SignupComponent implements OnInit {
     lastname: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required]),
     passwordConfirm: new FormControl(null, [Validators.required]),
-    whiteboardname: new FormControl(null, [Validators.required]),
   },
     // add custom Validators to the form, to make sure that password and passwordConfirm are equal
     { validators: CustomValidators.passwordsMatching }

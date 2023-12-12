@@ -35,7 +35,6 @@ export interface RefreshToken {
     firstname: string;
     lastname: string;
     password: string;
-    whiteboardname: string;
   }
   
   /*

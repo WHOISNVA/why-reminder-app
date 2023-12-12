@@ -23,7 +23,7 @@
             <button mat-icon-button class="toolbar-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
-            <span>Application Name</span>
+            <span>{{title}}</span>
             <span class="mytoolbar-spacer"></span>
             <button mat-icon-button class="toolbar-icon favorite-icon" aria-label="Example icon-button with heart icon">
                 <mat-icon>favorite</mat-icon>
@@ -42,7 +42,7 @@
           <app-userauth (changeLoginUserInfo)="changeLoginUserInfo()"/>
         </mat-tab>
         <mat-tab label="Gallery">
-          <app-usergallery [currentGalleryInfo]='currentGalleryInfo' (changeGalleryInfo)="changeGalleryInfo($event)" />
+          <app-usergallery [currentGalleryInfo]='currentGalleryInfo' [currentUserInfo]="currentUserInfo" (changeGalleryInfo)="changeGalleryInfo($event)" />
         </mat-tab>
       </mat-tab-group>
     </mat-drawer>             

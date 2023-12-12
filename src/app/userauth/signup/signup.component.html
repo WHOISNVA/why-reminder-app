@@ -61,14 +61,6 @@
               Passwords are not matching!</mat-error>
           </mat-form-field>
         </p>
-        <p>
-          <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="Whiteboard Name" formControlName="whiteboardname">
-            <mat-error
-              *ngIf="this.registerForm.get('whiteboardname')?.touched && this.registerForm.get('whiteboardname')?.hasError('required')">
-              Whiteboard Name is required</mat-error>
-          </mat-form-field>
-        </p>
         <div class="button">
           <button type="submit" mat-button [disabled]="!registerForm.valid">Register</button>
         </div>
