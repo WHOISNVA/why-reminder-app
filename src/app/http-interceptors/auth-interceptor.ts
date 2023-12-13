@@ -12,10 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const userInfo = this.storage.getUser();
     //console.log('intercept:', JSON.stringify(userInfo));
     // Clone the request and replace the original headers with    
-    if(userInfo && userInfo.token) {
+    if(userInfo && userInfo.idToken) {
         req = req.clone({
             setHeaders: {
-                'Authorization': `${userInfo.token}`,
+                'Authorization': `${userInfo.idToken}`,
             }            
         });
         //console.log('authReq:', req);

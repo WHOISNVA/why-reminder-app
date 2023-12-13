@@ -6,7 +6,7 @@ const GallerySchema = new Schema({
         type: String,
         required: true
     },
-    userid: {
+    email: {
         type: String,
         required: true
     }

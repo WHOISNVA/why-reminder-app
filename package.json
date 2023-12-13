@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@abacritt/angularx-social-login": "^2.2.0",
     "@angular/animations": "^16.2.9",
     "@angular/cdk": "^16.2.12",
     "@angular/common": "^16.2.9",
@@ -27,6 +28,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",
+    "google-auth-library": "^9.4.1",
     "mongoose": "^7.6.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

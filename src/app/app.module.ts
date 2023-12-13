@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { WhiteboardComponent } from './whiteboard/whiteboard.component';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SafePipe } from './safe.pipe';
 import { TitleComponent } from './title/title.component';
 import { UserauthComponent } from './userauth/userauth.component';
 import { SigninComponent } from './userauth/signin/signin.component';
+import { GoogleSigninComponent } from './userauth/signin/googlesignin/googlesignin.component';
 import { SignupComponent } from './userauth/signup/signup.component';
 import { UsergalleryComponent } from './usergallery/usergallery.component';
 
@@ -22,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatToolbarModule } from '@angular/material/toolbar'; 
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -35,6 +36,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { JwtModule } from '@auth0/angular-jwt';
+
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+} from '@abacritt/angularx-social-login';
 
 // specify the key where the token is stored in the local storage
 export const LOCALSTORAGE_TOKEN_KEY = 'angular_material_login_and_register_example';
@@ -55,11 +62,13 @@ export function tokenGetter() {
     VideoDialogComponent,
     UserauthComponent,
     SigninComponent,
+    GoogleSigninComponent,
     SignupComponent,
     UsergalleryComponent,
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -86,10 +95,29 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:3000', 'localhost:8080']
       }
-    })
+    }),
+
+    SocialLoginModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('261646635303-pr2kkfuepifg8jii5hn4tp6919oho6eg.apps.googleusercontent.com', {
+              scopes: 'openid profile email',
+            }),
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,7 +11,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
 const authMiddleware = require("./middleware/auth");
-const galleryMiddleware = require("./middleware/gallery");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -76,11 +74,11 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-async function checkGalleryForThisUser(galleryId, userId) {
+async function checkGalleryForThisUser(galleryId, userEmail) {
   console.log('checkGallery-start');
   try {
     console.log('checkGallery-001');
-    const gallerys = await Gallery.find({userid:userId, _id:galleryId});
+    const gallerys = await Gallery.find({email:userEmail, _id:galleryId});
     console.log('checkGallery-002');
     console.log("CHECKING:", JSON.stringify(gallerys));
     return true;
@@ -111,7 +109,6 @@ app.post('/posts', authMiddleware, async (req, res) => {
 app.get('/posts', authMiddleware, async (req, res) => {
   const galleryId = req.query.gallery;
   
-  //checkGalleryForThisUser(galleryId, req.user.user_id);
     try {
       //const posts = await Post.find();
       const posts = await Post.find({galleryid:req.query.gallery});
@@ -153,9 +150,9 @@ app.delete('/posts/:id', authMiddleware, async (req, res) => {
 
 // ========== Wall Routes ===========
 // Create a new gallery
-app.post('/galleries', galleryMiddleware, async (req, res) => {
-//  console.log('gallery data header:', req.header);
-//  console.log('gallery data body:', req.body);
+app.post('/galleries', authMiddleware, async (req, res) => {
+  console.log('gallery data header:', req.header);
+  console.log('gallery data body:', req.body);
 
   try {
     const newGallery = new Gallery(req.body);
@@ -167,13 +164,13 @@ app.post('/galleries', galleryMiddleware, async (req, res) => {
 });
 
 // Get all galleries
-app.get('/galleries', galleryMiddleware, async (req, res) => {
-//  console.log('gallery data header:', req.header);
-//  console.log('gallery data body:', req.body);
+app.get('/galleries', authMiddleware, async (req, res) => {
+  console.log('gallery data header:', req.header);
+  console.log('gallery data body:', req.body);
   
   try {
-    if(req.body.userid.length > 0) {
-      const gallerys = await Gallery.find({userid:req.body.userid});
+    if(req.body.email.length > 0) {
+      const gallerys = await Gallery.find({email:req.body.email});
       res.json(gallerys);
     } else {
       res.status(401);
@@ -184,7 +181,7 @@ app.get('/galleries', galleryMiddleware, async (req, res) => {
 });
 
 // Delete a gallery by ID
-app.delete('/galleries/:id', galleryMiddleware, async (req, res) => {
+app.delete('/galleries/:id', authMiddleware, async (req, res) => {
   try {
     await Gallery.findByIdAndDelete(req.params.id);
     res.json({ message: 'Gallery deleted' });
@@ -222,16 +219,16 @@ app.delete('/galleries/:id', galleryMiddleware, async (req, res) => {
             expiresIn: "2h",
           }
         );
-//        console.log('generated token:', token);
         
         // save user token
         let returnUserData = {
-          _id: user.id,
+          id: user.id,
           email: user.email,
-          username: user.username,
-          token
+          name: user.username,
+          idToken: token,
+          provider: "SELF"
         };
-        user.token = token;
+        
         console.log('logined user:', JSON.stringify(returnUserData));
         // user
         res.status(200).json(returnUserData);

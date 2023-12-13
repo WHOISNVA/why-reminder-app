@@ -46,9 +46,7 @@ export class AuthService {
         //localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, res.accessToken);
         
        }),
-       tap(() => this.snackbar.open('Login Successfull', 'Close', {
-        duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
-       }))
+       tap(() => {})
       );
 
   }

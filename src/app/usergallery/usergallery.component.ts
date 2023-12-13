@@ -29,9 +29,8 @@ export class UsergalleryComponent implements OnInit {
   
   galleryList = [
     {
-      id: '111111',
-      name: 'whiteboard001',
-
+      id: '',
+      name: '',
     }
   ];
 
@@ -50,34 +49,17 @@ export class UsergalleryComponent implements OnInit {
   
 
   ngOnInit() {
-    /*
-    this.galleryList = [];
-
-    const getUrl = 'http://127.0.0.1:3000/galleries';
-    this.http.get<any>(getUrl).subscribe(data => {
-      console.log(JSON.stringify(data));
-      data.map((d: any, index: number) => {
-        this.galleryList.push({
-          id: d._id,
-          name: d.name,
-        });
-        })
-      },
-      err => {
-        if(err.status === 401) {
-          this.snackbar.open('Please login again!', 'Close', {
-            duration: 2000, horizontalPosition: 'right', verticalPosition: 'top', panelClass: ['snackbar-error']
-          });
-          
-        }
-      }
-    );
-    */
+    this.updateGalleryList();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if(!changes['currentGalleryInfo']) {
-      this.galleryList = [];
+      this.updateGalleryList();
+    }
+  }
+
+  updateGalleryList () {
+    this.galleryList = [];
       const getUrl = 'http://127.0.0.1:3000/galleries';
       this.http.get<any>(getUrl).subscribe(data => {
         this.setExpandStep(2); 
@@ -97,7 +79,6 @@ export class UsergalleryComponent implements OnInit {
           }
         }
       );
-    }
   }
 
   selectChange(event:MatSelectionListChange) {
