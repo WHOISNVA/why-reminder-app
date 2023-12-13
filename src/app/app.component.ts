@@ -23,6 +23,7 @@ export class AppComponent {
 
   changeLoginUserInfo() {
     this.currentUserInfo = this.storageService.getUser();
+    this.currentGalleryInfo = {};
   }
 
   changeGalleryInfo(selectedGallery:any) {
