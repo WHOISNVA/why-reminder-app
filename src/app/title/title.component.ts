@@ -17,11 +17,8 @@ export class TitleComponent {
     if (Object.keys(this.currentGalleryInfo).length > 0) {
       this.whiteboardname = this.currentGalleryInfo.name;
     } else {
-      this.currentGalleryInfo = {
-        name: ''
-      };
+      this.whiteboardname = '';
     }
-    this.whiteboardname = this.currentGalleryInfo.name;
   }
 
   toggleMenu() {

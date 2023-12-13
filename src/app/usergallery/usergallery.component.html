@@ -37,7 +37,7 @@
                 </div>
                 <div class="gallerylist">
                     <mat-selection-list #galleries [multiple]="false" (selectionChange)="selectChange($event)" >
-                        <mat-list-option *ngFor="let gallery of galleryList" [value]="gallery" selected="gallery === currentGalleryInfo" >{{gallery.name}}</mat-list-option>
+                        <mat-list-option *ngFor="let gallery of galleryList" [value]="gallery"  >{{gallery.name}}</mat-list-option>
                     </mat-selection-list>
                 </div>
             </mat-expansion-panel>

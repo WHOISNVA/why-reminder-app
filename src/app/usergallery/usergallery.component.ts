@@ -53,7 +53,8 @@ export class UsergalleryComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(!changes['currentGalleryInfo']) {
+    if(changes['currentUserInfo']) { 
+      console.log('change', JSON.stringify(changes));
       this.updateGalleryList();
     }
   }
