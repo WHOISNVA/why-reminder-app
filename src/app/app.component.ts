@@ -8,7 +8,7 @@ import { Output, Input, EventEmitter } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'why-reminder-app';
+  title = 'URL Gallery';
 
   constructor(private storageService: StorageService) {
 
