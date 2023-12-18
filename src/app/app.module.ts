@@ -51,7 +51,6 @@ export function tokenGetter() {
   return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 }
 
-
 @NgModule({
   declarations: [
     AppComponent,

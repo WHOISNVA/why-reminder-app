@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '../interfaces';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
+
 export const fakeLoginResponse: LoginResponse = {
   // fakeAccessToken.....should all come from real backend
   accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
@@ -39,7 +41,7 @@ export class AuthService {
   ) { }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    const authUrl = 'http://127.0.0.1:3000/login';
+    const authUrl = environment.authLoginUrl; //'http://127.0.0.1:3000/login';
     return this.http.post<LoginResponse>(authUrl, loginRequest).pipe(
        tap((res: LoginResponse) => {
         //window.alert(JSON.stringify(res));
@@ -56,7 +58,7 @@ export class AuthService {
   */
   register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
     // TODO
-    const postUrl = 'http://127.0.0.1:3000/users';
+    const postUrl = environment.usersHandleUrl;  // 'http://127.0.0.1:3000/users';
     return this.http.post<RegisterResponse>(postUrl, registerRequest).pipe(
       tap((res: RegisterResponse) => {
         this.snackbar.open(`User created successfully`, 'Close', {
@@ -67,7 +69,7 @@ export class AuthService {
   }
 
   logout() {
-    const logoutUrl = 'http://127.0.0.1:3000/logout';
+    const logoutUrl = environment.authLogoutUrl;  //'http://127.0.0.1:3000/logout';
     return this.http.post(logoutUrl, {}).pipe(
       tap(() => {
         console.log('tap logout');

@@ -8,6 +8,8 @@ import { GalleryService } from '../services/gallery.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectionListChange } from '@angular/material/list';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-usergallery',
   templateUrl: './usergallery.component.html',
@@ -61,7 +63,7 @@ export class UsergalleryComponent implements OnInit {
 
   updateGalleryList () {
     this.galleryList = [];
-      const getUrl = 'http://127.0.0.1:3000/galleries';
+      const getUrl = environment.galleriesHandleUrl; // 'http://127.0.0.1:3000/galleries';
       this.http.get<any>(getUrl).subscribe(data => {
         this.setExpandStep(2); 
         data.map((d: any, index: number) => {
@@ -118,7 +120,8 @@ export class UsergalleryComponent implements OnInit {
   }
 
   deleteCurrentGallery() {
-    const deleteUrl = 'http://127.0.0.1:3000/galleries/' + this.currentGalleryInfo.id;
+    //const deleteUrl = 'http://127.0.0.1:3000/galleries/' + this.currentGalleryInfo.id;
+    const deleteUrl = environment.galleriesHandleUrl + '/' + this.currentGalleryInfo.id;
     console.log(JSON.stringify(deleteUrl ));
     this.http.delete<any>(deleteUrl).subscribe(() => {
       console.log('Delete successful');

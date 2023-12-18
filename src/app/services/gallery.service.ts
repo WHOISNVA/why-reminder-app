@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddgalleryRequest, AddgalleryResponse } from '../interfaces';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -19,7 +21,7 @@ export class GalleryService {
     // Add a gallery
     addGallery(addgalleryRequest: AddgalleryRequest): Observable<AddgalleryResponse> {
         // TODO
-        const postUrl = 'http://127.0.0.1:3000/galleries';
+        const postUrl = environment.galleriesHandleUrl;  // 'http://127.0.0.1:3000/galleries';
         return this.http.post<AddgalleryResponse>(postUrl, addgalleryRequest).pipe(
             tap((res: AddgalleryResponse) => {
                 this.snackbar.open(`A new gallery is created successfully`, 'Close', {

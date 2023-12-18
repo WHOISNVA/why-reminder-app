@@ -8,6 +8,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../services/storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-whiteboard',
@@ -33,7 +34,8 @@ export class WhiteboardComponent {
     this.mediaItems = [];
 
     console.log("Whiteboard Current Gallery:", JSON.stringify(this.currentGalleryInfo));
-    const getUrl = 'http://127.0.0.1:3000/posts?gallery=' + this.currentGalleryInfo.id;
+    //const getUrl = 'http://127.0.0.1:3000/posts?gallery=' + this.currentGalleryInfo.id;
+    const getUrl = environment.postsHandleUrl + '?gallery=' + this.currentGalleryInfo.id;
     
     
     this.http.get<any>(getUrl).subscribe(data => {
@@ -77,7 +79,8 @@ export class WhiteboardComponent {
     event.stopPropagation();
     this.mediaItems = this.mediaItems.filter(media => media !== mediaToDelete);
 
-    const deleteUrl = 'http://127.0.0.1:3000/posts/' + mediaToDelete._id;
+    //const deleteUrl = 'http://127.0.0.1:3000/posts/' + mediaToDelete._id;
+    const deleteUrl = environment.postsHandleUrl + '/' + mediaToDelete._id;
     console.log(JSON.stringify(deleteUrl ));
 
     this.http.delete<any>(deleteUrl).subscribe(() => console.log('Delete successful'));
@@ -130,8 +133,8 @@ export class WhiteboardComponent {
       }
 
       console.log('post data:', JSON.stringify(postData));
-      const postUrl = 'http://127.0.0.1:3000/posts';
-           
+      const postUrl = environment.postsHandleUrl;  // 'http://127.0.0.1:3000/posts';
+      
 
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
@@ -186,7 +189,8 @@ export class WhiteboardComponent {
   onDrop(mediaToUpdate: any, event: CdkDragEnd): void {    
     let tmpMedia = {...mediaToUpdate};
     const movedPositionDiff = event.source.getFreeDragPosition();
-    const updateUrl = 'http://127.0.0.1:3000/posts/' + mediaToUpdate._id;
+    //const updateUrl = 'http://127.0.0.1:3000/posts/' + mediaToUpdate._id;
+    const updateUrl = environment.postsHandleUrl +  '/' + mediaToUpdate._id;
     
     tmpMedia.x += movedPositionDiff.x;
     tmpMedia.y += movedPositionDiff.y;
