@@ -1,0 +1,38 @@
+<div *ngIf="!isLoggedIn"  class="login-wrapper" fxLayout="row" fxLayoutAlign="center center" >
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="example-form" [formGroup]="loginForm" (submit)="submitLogin()">
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Password" type="password" formControlName="password" />
+          </mat-form-field>
+        </p>
+        <button type="submit" mat-button [disabled]="!loginForm.valid">Login</button>
+        <app-userauth-signin-googlesignin (loginWithGoogle)="googleSignin($event)"></app-userauth-signin-googlesignin>
+      </form>
+      
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="isLoggedIn"  class="login-wrapper" fxLayout="row" fxLayoutAlign="center center" >
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>User Detail</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <p>Name:{{loginUserInfo.name}}</p>
+        <p>Mail:{{loginUserInfo.email}}</p>
+      </div>
+      <button type="button" mat-button (click)="submitLogout()">Logout</button>
+    </mat-card-content>
+  </mat-card>
+</div>
