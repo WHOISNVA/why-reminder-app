@@ -107,7 +107,8 @@ export function tokenGetter() {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('261646635303-pr2kkfuepifg8jii5hn4tp6919oho6eg.apps.googleusercontent.com', {
+//            provider: new GoogleLoginProvider('261646635303-pr2kkfuepifg8jii5hn4tp6919oho6eg.apps.googleusercontent.com', {
+            provider: new GoogleLoginProvider('172763903889-cq4o1vorteqhvvn67h0kkeklrrhr9208.apps.googleusercontent.com', {
               scopes: 'openid profile email',
             }),
           },
