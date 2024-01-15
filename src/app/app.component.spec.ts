@@ -1,3 +1,4 @@
+import {} from 'jasmine';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
@@ -25,3 +26,4 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span')?.textContent).toContain('why-reminder-app app is running!');
   });
 });
+

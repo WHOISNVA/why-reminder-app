@@ -1,24 +1,32 @@
-<div class="whiteboard" (click)="showForm($event)">
-   
-    <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container">
-        <span class="media-name">{{ media.name }}</span> <!-- Displaying the name -->
+<div class="whiteboard" (click)="showForm($event)" (mouseleave)="hideForm()" >
+    <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container" (click)="openMedia(media, $event)" (cdkDragStarted)="onDrag(media, $event)" (cdkDragEnded)="onDrop(media, $event)" cdkDrag >
+        <span class="delete-icon" (click)="deleteMedia(media, $event)">X</span>
         <img *ngIf="media.type.startsWith('image')" [src]="media.safeSrc">
         <iframe *ngIf="media.type.startsWith('video')" [src]="media.safeSrc" frameborder="0" allowfullscreen></iframe>
     </div>
-      
-  
-      <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form">
+
+    <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form"  (click)="stopPropagation($event)">
         <h3>Add Media</h3>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" [(ngModel)]="formValue.name" placeholder="Enter media name">
-        </div>
+        
         <div class="form-group">
             <label for="url">URL:</label>
             <input type="text" id="url" [(ngModel)]="formValue.url" placeholder="Enter YouTube or image URL">
         </div>
-        <button (click)="addMedia()">Add</button>
+        <div>
+            <div style="float:left"><button (click)="addMediaURL()">Add</button></div>
+            <div style="float:right">
+                <div *ngIf="video_loading">uploading.{{video_uploadingprogress}}%</div>
+                <label for="videoFileSelector" class="btn" id="selectfilelabel" *ngIf="!video_loading" >Select File</label>
+            </div>      
+            <input 
+                type="file" 
+                id="videoFileSelector" 
+                accept = "image/png,image/*"
+                class="input-upload" 
+                (change)="onSelectVideoFile($event)" 
+            />
+        </div>
+
     </div>
-    
-  </div>
-  
+
+</div>

@@ -1,0 +1,15 @@
+<div class="form-group">
+    <input class="form-control" type="file" (change)="onSelectVideoFile($event)" *ngIf="!video_loading && !video_shortLink"> 
+</div> 
+  
+<!-- Shareable short link of  uploaded file -->
+<div class="container text-center jumbotron" *ngIf="video_shortLink"> 
+    <a href="{{video_shortLink}}">{{video_shortLink}}</a>&nbsp;&nbsp;<a href='#' (click)="onClickReselectVideoFile()">Reselect</a>
+</div> 
+<!--Flag variable is used here-->
+<div class="container" *ngIf="video_loading"> 
+    <h3>Uploading ...</h3> 
+</div> 
+<button  > 
+    Add 
+</button> 
