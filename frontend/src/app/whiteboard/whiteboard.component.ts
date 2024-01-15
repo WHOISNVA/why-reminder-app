@@ -1,14 +1,19 @@
 import { Component, Input, SimpleChanges  } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoDialogComponent } from '../video-dialog/video-dialog.component';
+import { FileUploadComponent } from '../file-upload/file-upload.component'; 
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../services/storage.service';
-import { environment } from 'src/environments/environment';
+//import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
+import { FileUploadService } from '../file-upload.service'; 
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-whiteboard',
@@ -25,10 +30,15 @@ export class WhiteboardComponent {
   showMediaForm = false;
   formPosition = { x: 0, y: 0 };
   formValue = { url: '' };
-
   dragging = false;
 
-  constructor(private dialog: MatDialog, private sanitizer: DomSanitizer, private http: HttpClient, private snackbar: MatSnackBar, private storageService: StorageService) {}
+  // Variable to store uploading video files
+  video_shortLink: string = ""; 
+  video_loading: boolean = false; // Flag variable 
+  video_file: File | null = null; // Variable to store file 
+  video_uploadingprogress: number = 0; 
+
+  constructor(private dialog: MatDialog, private sanitizer: DomSanitizer, private http: HttpClient, private snackbar: MatSnackBar, private storageService: StorageService, private fileUploadService: FileUploadService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.mediaItems = [];
@@ -43,7 +53,6 @@ export class WhiteboardComponent {
           const datatype = this.detectMediaType(d.url);
           if(datatype) {
             const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(d.url);
-
             this.mediaItems.push({
               _id: d._id,
               x: d.x,
@@ -55,7 +64,6 @@ export class WhiteboardComponent {
             });
             console.log(d);
           }
-          
         })
       },
       err => {
@@ -116,14 +124,18 @@ export class WhiteboardComponent {
     });
   }
 
-  addMedia() {
+  addMediaURL() {
+    if(this.video_loading === true) {
+      alert('Cannot upload because of uploading video file!');
+      return;
+    }
+
     const type = this.detectMediaType(this.formValue.url);
-    
+
     if (type) {
       const formattedURL = type.startsWith('video') ? this.formValue.url.replace('watch?v=', 'embed/') : this.formValue.url;
       const safeURL = this.sanitizer.bypassSecurityTrustResourceUrl(formattedURL);
       
-
       // added for posting to backend server
       const postData = {
         url: formattedURL,
@@ -134,7 +146,6 @@ export class WhiteboardComponent {
 
       console.log('post data:', JSON.stringify(postData));
       const postUrl = environment.postsHandleUrl;  // 'http://127.0.0.1:3000/posts';
-      
 
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
@@ -157,6 +168,35 @@ export class WhiteboardComponent {
       alert('Invalid URL!');
     }
   }
+
+  // On file Select 
+  onSelectVideoFile(event:any) { 
+    this.video_file = event.target.files[0];
+    if(this.video_file !== null && this.video_file !== undefined) {
+      // uploading to the server
+      this.video_loading = !this.video_loading; 
+      this.fileUploadService.upload(this.video_file).subscribe( 
+          (event: any) => { 
+              //if (typeof (event) === 'object') { 
+              if (event.type === HttpEventType.UploadProgress) {
+                  console.log('event:', event);
+                  this.video_uploadingprogress = Math.round(event.loaded * 100 / event.total * 100) / 100;
+              } else if (event instanceof HttpResponse) {
+                  console.log('event:', event);
+                  // Short link via api response 
+                  this.video_shortLink = environment.imageFolderUrl + '/' + event.body.uploadedname; 
+                  this.video_loading = false; // Flag variable  
+                  this.formValue.url = environment.imageFolderUrl + '/' + event.body.uploadedname; 
+              } 
+          } 
+      ); 
+    }
+  }
+
+  cancelUploadingVideoFile() {
+    this.video_uploadingprogress = 0;
+    this.video_loading = false;
+  }
   
   hideForm(): void {
     this.showMediaForm = false;
@@ -165,6 +205,8 @@ export class WhiteboardComponent {
   detectMediaType(url: string): string | null {
     if (url.includes('youtube.com')) {
       return 'video/youtube';
+    } else if(url.includes('png') || url.includes('jpg')|| url.includes('jpeg') || url.includes('bmp') || url.includes('gif') || url.includes('tiff') || url.includes('tif')) {
+      return 'imagefile';
     }
     // You can add more media type detections if needed
     return null;
@@ -200,5 +242,4 @@ export class WhiteboardComponent {
           mediaToUpdate._id = data._id;
         });
   }
-
 }

@@ -42,6 +42,7 @@ import {
   SocialAuthServiceConfig,
   GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 // specify the key where the token is stored in the local storage
 export const LOCALSTORAGE_TOKEN_KEY = 'angular_material_login_and_register_example';
@@ -64,6 +65,7 @@ export function tokenGetter() {
     GoogleSigninComponent,
     SignupComponent,
     UsergalleryComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,12 +7,26 @@
 
     <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form"  (click)="stopPropagation($event)">
         <h3>Add Media</h3>
+        
         <div class="form-group">
-            
             <label for="url">URL:</label>
             <input type="text" id="url" [(ngModel)]="formValue.url" placeholder="Enter YouTube or image URL">
         </div>
-        <button (click)="addMedia()">Add</button>
+        <div>
+            <div style="float:left"><button (click)="addMediaURL()">Add</button></div>
+            <div style="float:right">
+                <div *ngIf="video_loading">uploading.{{video_uploadingprogress}}%</div>
+                <label for="videoFileSelector" class="btn" id="selectfilelabel" *ngIf="!video_loading" >Select File</label>
+            </div>      
+            <input 
+                type="file" 
+                id="videoFileSelector" 
+                accept = "image/png,image/*"
+                class="input-upload" 
+                (change)="onSelectVideoFile($event)" 
+            />
+        </div>
+
     </div>
 
 </div>
