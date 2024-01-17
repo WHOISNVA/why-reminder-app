@@ -1,11 +1,11 @@
-<div class="whiteboard" (click)="showForm($event)" (mouseleave)="hideForm()" >
+<div id="whiteboardcomponent" class="whiteboard" (click)="showForm($event)" (mouseleave)="hideForm()" >
     <div *ngFor="let media of mediaItems" [ngStyle]="{'left': media.x + 'px', 'top': media.y + 'px'}" class="img-video-container" (click)="openMedia(media, $event)" (cdkDragStarted)="onDrag(media, $event)" (cdkDragEnded)="onDrop(media, $event)" cdkDrag >
         <span class="delete-icon" (click)="deleteMedia(media, $event)">X</span>
         <img *ngIf="media.type.startsWith('image')" [src]="media.safeSrc">
         <iframe *ngIf="media.type.startsWith('video')" [src]="media.safeSrc" frameborder="0" allowfullscreen></iframe>
     </div>
 
-    <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x + 'px', 'top': formPosition.y + 'px'}" class="media-form"  (click)="stopPropagation($event)">
+    <div *ngIf="showMediaForm" [ngStyle]="{'left': formPosition.x > 0 ? formPosition.x + 'px' : '50%', 'top': formPosition.y > 0 ? formPosition.y + 'px' : '50%'}" class="media-form"  (click)="stopPropagation($event)">
         <h3>Add Media</h3>
         
         <div class="form-group">

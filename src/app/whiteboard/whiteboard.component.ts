@@ -26,6 +26,8 @@ export class WhiteboardComponent {
     id:'',
   };
 
+  
+
   mediaItems: { _id: string, src: string, safeSrc: SafeResourceUrl, x: number, y: number, type: string,}[] = [];
   showMediaForm = false;
   formPosition = { x: 0, y: 0 };
@@ -38,7 +40,8 @@ export class WhiteboardComponent {
   video_file: File | null = null; // Variable to store file 
   video_uploadingprogress: number = 0; 
 
-  constructor(private dialog: MatDialog, private sanitizer: DomSanitizer, private http: HttpClient, private snackbar: MatSnackBar, private storageService: StorageService, private fileUploadService: FileUploadService) {}
+  constructor(private dialog: MatDialog, private sanitizer: DomSanitizer, private http: HttpClient, private snackbar: MatSnackBar, private storageService: StorageService, private fileUploadService: FileUploadService) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.mediaItems = [];
@@ -77,7 +80,8 @@ export class WhiteboardComponent {
   }
 
   ngOnInit(){
-    
+    this.showMediaForm = true;
+
     //do any lines of code to init the child
     console.log("this executes second");
   }
