@@ -47,7 +47,6 @@ export class WhiteboardComponent {
     //const getUrl = 'http://127.0.0.1:3000/posts?gallery=' + this.currentGalleryInfo.id;
     const getUrl = environment.postsHandleUrl + '?gallery=' + this.currentGalleryInfo.id;
     
-    
     this.http.get<any>(getUrl).subscribe(data => {
         data.map((d: any, index: number) => {
           const datatype = this.detectMediaType(d.url);
@@ -148,19 +147,37 @@ export class WhiteboardComponent {
       const postUrl = environment.postsHandleUrl;  // 'http://127.0.0.1:3000/posts';
 
       let postHeader = new HttpHeaders().set('Content-Type', 'application/json');
-      this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(data => {
-        console.log('added data:', JSON.stringify(data));
-        
-        this.mediaItems.push({
-          _id: '',
-          src: formattedURL,
-          safeSrc: safeURL,
-          x: postData.x,
-          y: postData.y,
-          type,
-        });
-
-      });
+      this.http.post(postUrl, JSON.stringify(postData), {headers:postHeader}).subscribe(
+        data => {
+          console.log('added data:', JSON.stringify(data));
+          
+          this.mediaItems.push({
+            _id: '',
+            src: formattedURL,
+            safeSrc: safeURL,
+            x: postData.x,
+            y: postData.y,
+            type,
+          });
+        },
+        error => {
+          if(this.mediaItems.length === 0) {
+            this.mediaItems.push({
+              _id: '',
+              src: formattedURL,
+              safeSrc: safeURL,
+              x: postData.x,
+              y: postData.y,
+              type,
+            });
+          } else {
+            this.snackbar.open('Please login and select a gallery for full-service.', 'Close', {
+              duration: 4000, horizontalPosition: 'right', verticalPosition: 'top'
+            })
+          }
+          
+        }
+      );
       
       this.showMediaForm = false;
       this.formValue = {  url: '' };
@@ -205,7 +222,12 @@ export class WhiteboardComponent {
   detectMediaType(url: string): string | null {
     if (url.includes('youtube.com')) {
       return 'video/youtube';
-    } else if(url.includes('png') || url.includes('jpg')|| url.includes('jpeg') || url.includes('bmp') || url.includes('gif') || url.includes('tiff') || url.includes('tif')) {
+    } else if( url.includes('png') || url.includes('PNG') ||
+      url.includes('jpg') || url.includes('JPG') ||
+      url.includes('jpeg') || url.includes('JPEG') || 
+      url.includes('bmp') || url.includes('BMP') ||
+      url.includes('gif') || url.includes('GIF') ||
+      url.includes('tiff') || url.includes('tif')) {
       return 'imagefile';
     }
     // You can add more media type detections if needed
