@@ -30,7 +30,7 @@ export class WhiteboardComponent {
 
   mediaItems: { _id: string, src: string, safeSrc: SafeResourceUrl, x: number, y: number, type: string,}[] = [];
   showMediaForm = false;
-  formPosition = { x: 0, y: 0 };
+  formPosition = { x: -1, y: -1 };
   formValue = { url: '' };
   dragging = false;
 
