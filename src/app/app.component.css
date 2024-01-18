@@ -66,6 +66,7 @@
     height:250px;
     width:auto;
     align-self:center;
+    padding-top: 10px; 
   }
 
   .toolbar #twitter-logo:hover,
@@ -118,6 +119,11 @@
     transition: all 0.2s ease-in-out;
     line-height: 24px;
   }
+
+  .mytoolbar mat-icon {
+    color: white;
+}
+
 
   .card-container .card:not(:last-child) {
     margin-right: 0;
@@ -330,7 +336,7 @@
 
 .mat-toolbar {
   display: flex;
-  background: #fff;
+  background: #000;
   align-items: center;
   justify-content: space-between; /* Ensures space between items */
 }
