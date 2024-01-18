@@ -327,3 +327,10 @@
   margin:0px;
   padding:0px;
 }
+
+.mat-toolbar {
+  display: flex;
+  background: #fff;
+  align-items: center;
+  justify-content: space-between; /* Ensures space between items */
+}
